@@ -21,6 +21,4 @@ What you need to do:
    - or, you can type `go run main.go`
 6. Server will be running and trigger auto migrate table. Check the db.
 7. Need to input one row data merchant. Example: username: "user", password: "password"
-8. You can import postman collection to start using API ([here](https://api.postman.com/collections/21766278-5219879c-093c-41fa-9eb8-bcd250cf53d2?access_key=PMAT-01H6KKWVBDYGGNDSGQREDPGWFF)). How to import: open postman → import → copy the link → import / submit
-
-You can check this [gdocs](https://docs.google.com/document/d/1dS5xtKiAQI0YpsfBFtJbxg2gW3gbirDVuh6k3j0OCrU/edit?usp=sharing) for more detail
+8. You can import postman collection to start using API ([gdocs](https://docs.google.com/document/d/1dS5xtKiAQI0YpsfBFtJbxg2gW3gbirDVuh6k3j0OCrU/edit?usp=sharing)). How to import: open postman → import → copy the link → import / submit
