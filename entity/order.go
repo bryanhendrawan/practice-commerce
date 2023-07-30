@@ -3,12 +3,13 @@ package entity
 import "time"
 
 type Order struct {
-	ID         int       `json:"id" gorm:"primaryKey"`
-	MerchantID int       `json:"merchant_id"`
-	GrandTotal int       `json:"grand_total"`
-	Status     int       `json:"status"`
-	CreatedAt  time.Time `json:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at"`
+	ID          int           `json:"id" gorm:"primaryKey"`
+	MerchantID  int           `json:"merchant_id"`
+	GrandTotal  int           `json:"grand_total"`
+	Status      int           `json:"status"`
+	OrderDetail []OrderDetail `json:"order_detail"`
+	CreatedAt   time.Time     `json:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at"`
 }
 
 type OrderDetail struct {

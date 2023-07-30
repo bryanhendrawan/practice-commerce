@@ -32,6 +32,7 @@ func DatabaseInit() *gorm.DB {
 }
 
 func AutoMigrate(connection *gorm.DB) {
+	// Notes: remove .Debug() to hide query migration
 	connection.Debug().AutoMigrate(
 		&entity.Merchant{},
 		&entity.Product{},
