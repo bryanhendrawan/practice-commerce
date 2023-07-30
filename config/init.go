@@ -8,12 +8,14 @@ import (
 type models struct {
 	ProductModel model.ProductModel
 	OrderModel   model.OrderModel
+	CartModel    model.CartModel
 }
 
-func ModelInit(productModel model.ProductModel, orderModel model.OrderModel) models {
+func ModelInit(productModel model.ProductModel, orderModel model.OrderModel, cartModel model.CartModel) models {
 	return models{
 		ProductModel: productModel,
 		OrderModel:   orderModel,
+		CartModel:    cartModel,
 	}
 }
 

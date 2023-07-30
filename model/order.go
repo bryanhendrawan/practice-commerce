@@ -9,9 +9,10 @@ import (
 type OrderModel interface {
 	CreateOrder(order entity.Order) (entity.Order, error)
 	UpdateOrder(order entity.Order) error
-	DeleteOrderByID(id int) error
-	GetOrders() ([]entity.Order, error)
+	DeleteOrder(order entity.Order) error
+	GetOrders(param entity.GetOrderParam) ([]entity.Order, error)
 	GetOrderByID(id int) (entity.Order, error)
+	GetOrderDetailByOrderID(orderID int) ([]entity.OrderDetail, error)
 }
 
 type order struct {
@@ -23,21 +24,66 @@ func NewOrderModel(db *gorm.DB) OrderModel {
 }
 
 func (o *order) CreateOrder(order entity.Order) (entity.Order, error) {
-	return entity.Order{}, nil
+	trxErr := o.db.Transaction(func(tx *gorm.DB) error {
+		for _, orderDetail := range order.OrderDetail {
+			updateProduct := entity.Product{
+				ID:    orderDetail.ProductID,
+				Stock: orderDetail.NewQtyProduct,
+			}
+			if err := tx.Updates(&updateProduct).Error; err != nil {
+				return err
+			}
+		}
+
+		if err := tx.Create(&order).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Where("merchant_id = ?", order.MerchantID).Delete(&entity.Cart{}).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	return order, trxErr
 }
 
 func (o *order) UpdateOrder(order entity.Order) error {
-	return nil
+	result := o.db.Debug().Updates(&order)
+
+	return result.Error
 }
 
-func (o *order) DeleteOrderByID(id int) error {
-	return nil
+func (o *order) DeleteOrder(order entity.Order) error {
+	result := o.db.Debug().Delete(&order)
+
+	return result.Error
 }
 
-func (o *order) GetOrders() ([]entity.Order, error) {
-	return []entity.Order{}, nil
+func (o *order) GetOrders(param entity.GetOrderParam) ([]entity.Order, error) {
+	var orders []entity.Order
+	queryDB := o.db
+
+	if param.MerchantID > 0 {
+		queryDB = queryDB.Where("merchant_id = ?", param.MerchantID)
+	}
+
+	result := queryDB.Debug().Order("updated_at desc").Find(&orders)
+
+	return orders, result.Error
 }
 
 func (o *order) GetOrderByID(id int) (entity.Order, error) {
-	return entity.Order{}, nil
+	var order entity.Order
+	result := o.db.Debug().Where("id = ?", id).First(&order)
+
+	return order, result.Error
+}
+
+func (o *order) GetOrderDetailByOrderID(orderID int) ([]entity.OrderDetail, error) {
+	var orderDetails []entity.OrderDetail
+	result := o.db.Debug().Where("order_id = ?", orderID).Find(&orderDetails)
+
+	return orderDetails, result.Error
 }

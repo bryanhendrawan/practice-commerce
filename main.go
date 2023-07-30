@@ -15,10 +15,11 @@ func main() {
 	models := config.ModelInit(
 		model.NewProductModel(db),
 		model.NewOrderModel(db),
+		model.NewCartModel(db),
 	)
 	controllers := config.ControllerInit(
 		controller.NewProductController(models.ProductModel),
-		controller.NewOrderController(models.OrderModel),
+		controller.NewOrderController(models.OrderModel, models.CartModel, models.ProductModel),
 	)
 
 	// fiber app

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+
 	"practice-commerce/entity"
 
 	"github.com/joho/godotenv"
@@ -38,5 +39,6 @@ func AutoMigrate(connection *gorm.DB) {
 		&entity.Product{},
 		&entity.Order{},
 		&entity.OrderDetail{},
+		&entity.Cart{},
 	)
 }

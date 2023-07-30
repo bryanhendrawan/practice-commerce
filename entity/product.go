@@ -36,8 +36,7 @@ type DeleteProductRequest struct {
 }
 
 type ProductResponse struct {
-	Data    *Product  `json:"data,omitempty"`
-	Datas   []Product `json:"datas,omitempty"`
-	Message string    `json:"message,omitempty"`
-	Error   string    `json:"error,omitempty"`
+	Data  *Product  `json:"data,omitempty"`
+	Datas []Product `json:"datas,omitempty"`
+	CommonResponse
 }
