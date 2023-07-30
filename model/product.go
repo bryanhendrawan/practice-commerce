@@ -23,19 +23,19 @@ func NewProductModel(db *gorm.DB) ProductModel {
 }
 
 func (p *product) CreateProduct(product entity.Product) (entity.Product, error) {
-	result := p.db.Debug().Create(&product)
+	result := p.db.Create(&product)
 
 	return product, result.Error
 }
 
 func (p *product) UpdateProduct(product entity.Product) error {
-	result := p.db.Debug().Updates(&product)
+	result := p.db.Updates(&product)
 
 	return result.Error
 }
 
 func (p *product) DeleteProduct(product entity.Product) error {
-	result := p.db.Debug().Delete(&product)
+	result := p.db.Delete(&product)
 
 	return result.Error
 }
@@ -51,14 +51,14 @@ func (p *product) GetProducts(param entity.GetProductParam) ([]entity.Product, e
 		queryDB = queryDB.Where("name LIKE ?", "%"+param.Name+"%")
 	}
 
-	result := queryDB.Debug().Order("updated_at desc").Find(&products)
+	result := queryDB.Order("updated_at desc").Find(&products)
 
 	return products, result.Error
 }
 
 func (p *product) GetProductByID(id int) (entity.Product, error) {
 	var product entity.Product
-	result := p.db.Debug().Where("id = ?", id).First(&product)
+	result := p.db.Where("id = ?", id).First(&product)
 
 	return product, result.Error
 }

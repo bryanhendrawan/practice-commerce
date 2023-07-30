@@ -50,13 +50,13 @@ func (o *order) CreateOrder(order entity.Order) (entity.Order, error) {
 }
 
 func (o *order) UpdateOrder(order entity.Order) error {
-	result := o.db.Debug().Updates(&order)
+	result := o.db.Updates(&order)
 
 	return result.Error
 }
 
 func (o *order) DeleteOrder(order entity.Order) error {
-	result := o.db.Debug().Delete(&order)
+	result := o.db.Delete(&order)
 
 	return result.Error
 }
@@ -69,21 +69,21 @@ func (o *order) GetOrders(param entity.GetOrderParam) ([]entity.Order, error) {
 		queryDB = queryDB.Where("merchant_id = ?", param.MerchantID)
 	}
 
-	result := queryDB.Debug().Order("updated_at desc").Find(&orders)
+	result := queryDB.Order("updated_at desc").Find(&orders)
 
 	return orders, result.Error
 }
 
 func (o *order) GetOrderByID(id int) (entity.Order, error) {
 	var order entity.Order
-	result := o.db.Debug().Where("id = ?", id).First(&order)
+	result := o.db.Where("id = ?", id).First(&order)
 
 	return order, result.Error
 }
 
 func (o *order) GetOrderDetailByOrderID(orderID int) ([]entity.OrderDetail, error) {
 	var orderDetails []entity.OrderDetail
-	result := o.db.Debug().Where("order_id = ?", orderID).Find(&orderDetails)
+	result := o.db.Where("order_id = ?", orderID).Find(&orderDetails)
 
 	return orderDetails, result.Error
 }

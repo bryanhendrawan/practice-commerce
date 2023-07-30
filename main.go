@@ -16,10 +16,12 @@ func main() {
 		model.NewProductModel(db),
 		model.NewOrderModel(db),
 		model.NewCartModel(db),
+		model.NewMerchantModel(db),
 	)
 	controllers := config.ControllerInit(
 		controller.NewProductController(models.ProductModel),
 		controller.NewOrderController(models.OrderModel, models.CartModel, models.ProductModel),
+		controller.NewMerchantController(models.MerchantModel),
 	)
 
 	// fiber app

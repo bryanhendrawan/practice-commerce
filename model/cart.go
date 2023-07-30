@@ -22,19 +22,19 @@ func NewCartModel(db *gorm.DB) CartModel {
 }
 
 func (c *cart) AddCart(cart entity.Cart) error {
-	result := c.db.Debug().Create(&cart)
+	result := c.db.Create(&cart)
 
 	return result.Error
 }
 
 func (c *cart) UpdateCart(cart entity.Cart) error {
-	result := c.db.Debug().Updates(&cart)
+	result := c.db.Updates(&cart)
 
 	return result.Error
 }
 
 func (c *cart) RemoveCart(cart entity.Cart) error {
-	result := c.db.Debug().Delete(&cart)
+	result := c.db.Delete(&cart)
 
 	return result.Error
 }
@@ -50,7 +50,7 @@ func (c *cart) GetCarts(param entity.GetCartParam) ([]entity.Cart, error) {
 		queryDB = queryDB.Where("product_id = ?", param.ProductID)
 	}
 
-	result := queryDB.Debug().Order("created_at asc").Find(&carts)
+	result := queryDB.Order("created_at asc").Find(&carts)
 
 	return carts, result.Error
 }
